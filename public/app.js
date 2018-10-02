@@ -70,4 +70,11 @@ $('#todoItems').on('click', '#remove', function(event) {
 
     });
 });
+
+$('#todoItems').on('click', '#remove', function(event) {
+    event.preventDefault();
+
+    
+});
+
 });
