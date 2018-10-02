@@ -1,0 +1,72 @@
+body {
+    height: 98vh
+} 
+
+main {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 100px 50px 1fr;
+}
+#header {
+    background-color: rgb(172, 61, 187);
+    color: white;
+    font-size: 30px;
+    margin: 20px;
+
+}
+
+#inputs {
+    margin: auto;
+    text-align: center;
+    
+   
+}
+
+#task {
+    width: 250px;
+    border-radius: 20px;
+}
+
+#tasklist {
+    width: auto;
+    margin: auto;
+}
+
+#chore {
+    text-align: center;
+
+}
+
+.container {
+    width: 50px;
+
+}
+
+#todos {
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 50px 1fr 50px;
+    background-color: rgb(235, 239, 243);
+    margin: 10px;
+    height: 30px;
+    padding: 5px ;
+    width:  500px;
+    border-radius: 20px;
+}
+#todoItems {
+  width: 500px;
+}
+
+#remove {
+    /* position: relative;
+    left: 325px; */
+    font-weight: 800;
+}
+
+@media only screen and (min-width: 600px){
+
+#contains {
+   
+}
+
+}
