@@ -2,7 +2,7 @@ $( function(){
 
    
 const renderTask = function (taskList) {   
-    taskList.forEach(e => render(`<div id="todos"><button type="submit" id="update">ADD</button><span id="chore">${e.todoItem}</span><button type="submit" id="remove">X</button></div>`));
+    taskList.forEach(e => render(`<div id="todos"><button type="submit" id="update">UPDATE</button><span id="chore">${e.todoItem}</span><button type="submit" id="remove" data-id=${e._id}>X</button></div>`));
   
      };
 
@@ -12,7 +12,6 @@ const render = function (taskList) {
 
       const runTaskQuery = function () {
 
-        // The AJAX function uses the URL of our API to GET the data associated with it (initially set to localhost)
         $.ajax({ url: '/api/taskList', method: 'GET' })
           .then(function(taskList) {
               renderTask(taskList);
@@ -42,10 +41,11 @@ const render = function (taskList) {
         $.ajax({ url: '/api/taskList', method: 'POST', data: newTask}).then(function(data) {
             console.log(newTask);
             $('#task').val('');
+            runTaskQuery();
         });
 
         
-          runTaskQuery();
+          
     });
 
     
@@ -55,26 +55,27 @@ const render = function (taskList) {
 
 $('#todoItems').on('click', '#remove', function(event) {
     event.preventDefault();
-    const index = $('#chore').text();
+    const index = $(this).data('id');
     console.log(index);
     $.ajax({ url: `/api/taskList/${index}`, method: "DELETE"})
     .then(function(data) {
 
-        if (data.success) {
-            console.log(data);
-            renderTask();
-          } else {
-            console.log(data);
-            alert('cannot delete');
-          }
+        // if (data.success) {
+        //     console.log(data);
+        $('#todoItems').empty();
+            runTaskQuery();
+        //   } else {
+        //     console.log(data);
+        //     alert('cannot delete');
+        //   }
 
     });
 });
 
-$('#todoItems').on('click', '#remove', function(event) {
+$('#todoItems').on('click', '#update', function(event) {
     event.preventDefault();
 
-    
+
 });
 
 });

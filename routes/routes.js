@@ -46,6 +46,9 @@ app.post('/api/taskList', function(req, res) {
   });
 });
 
+app.get('/api/tasklist/:index', function(req, res) {
+  res.json(tableList[req.params.index]);
+});
 
 // Finds the requested task and replaces it one provided in the request body
 app.put('/api/taskList/', function(req, res) {
@@ -61,8 +64,8 @@ app.put('/api/taskList/', function(req, res) {
 
 
 // Finds the requested task and deletes it from the collection
-app.delete('/api/taskList', function(req, res) {
-  db.Tasklist.findOneAndRemove({todoItem: req.body.todoItem})
+app.delete('/api/taskList/:task_id', function(req, res) {
+  db.Tasklist.findByIdAndRemove(req.params.task_id)
   .then(function (dbTasklist) {
       res.json(dbTasklist);
   })
