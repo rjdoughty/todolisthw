@@ -15,6 +15,10 @@ todoItem: {
 completed: {
     type: Boolean,
     default: false
+},
+checkbox: {
+    type: String,
+    default: "unchecked"
 }
 
 

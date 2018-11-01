@@ -51,9 +51,9 @@ app.get('/api/tasklist/:index', function(req, res) {
 });
 
 // Finds the requested task and replaces it one provided in the request body
-app.put('/api/taskList/', function(req, res) {
+app.put('/api/taskList', function(req, res) {
 
-  db.Tasklist.findOneAndUpdate({todoItem: req.body.todoItem}, {$set: {completed: req.body.completed}})
+  db.Tasklist.findOneAndUpdate({_id: req.body._id}, {$set: {completed: req.body.completed, checkbox: req.body.checkbox}})
   .then(function (dbTasklist) {
       res.json(dbTasklist);
   })

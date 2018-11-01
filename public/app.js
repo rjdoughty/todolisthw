@@ -1,33 +1,36 @@
+
 $( function(){
 
-   
-const renderTask = function (taskList) {   
-    taskList.forEach(e => render(`<div id="todos"><button type="submit" id="update">UPDATE</button><span id="chore">${e.todoItem}</span><button type="submit" id="remove" data-id=${e._id}>X</button></div>`));
-  
-     };
-
-const render = function (taskList) {
-    $('#todoItems').append(taskList);
-      };
 
       const runTaskQuery = function () {
-
+        $('#todoItems').empty();
         $.ajax({ url: '/api/taskList', method: 'GET' })
-          .then(function(taskList) {
-              renderTask(taskList);
-           // taskList.forEach(e => render(`<p><label class="container"><input type="checkbox"><span class="checkmark"></span></label>${e.todoItem} <span id="remove">x</span></p>`));
+          .then(function (taskList) {
+              let htmlstr = '';
+    
+              taskList.forEach(e => {
+                  htmlstr += `<li id="todos"><input type="checkbox" id="comptodo" ${e.checkbox} data-box=${e.checkbox} data-status=${e.completed} data-id=${e._id}>`;
+                  htmlstr += `<span id="chore">${e.todoItem}</span>`;
+                  htmlstr += `<button type="submit" id="remove" data-id=${e._id}><i class="fas fa-times"></i></button></li>`;
+              });
+              $('#todoItems').append(htmlstr);
+        
             console.log(taskList);
-          });
+          })
+          .catch(function (err) {
+            console.log(err);
+        });
       }
-      //$('#task').val('');
 
 
     $('#submit').on('click', function(event) {
         event.preventDefault();
       
-        $('#todoItems').empty();
+        
         const newTask = {
-            todoItem: $('#task').val().trim()
+            todoItem: $('#task').val().trim(),
+            completed: false,
+            checkbox: "unchecked"
         };
 
         for(let key in newTask){
@@ -42,16 +45,9 @@ const render = function (taskList) {
             console.log(newTask);
             $('#task').val('');
             runTaskQuery();
-        });
-
-        
-          
+        });     
     });
 
-    
-
-
-//$('#remove').on('click', removeTask);
 
 $('#todoItems').on('click', '#remove', function(event) {
     event.preventDefault();
@@ -72,9 +68,30 @@ $('#todoItems').on('click', '#remove', function(event) {
     });
 });
 
-$('#todoItems').on('click', '#update', function(event) {
+$('#todoItems').on('click', '#comptodo', function(event) {
     event.preventDefault();
+    const index = $(this).data('id');
+    let status = $(this).data('status');
+    let boxStatus = $(this).data('box');
 
+        if (status === false) {
+            status = true;
+            boxStatus = "checked"
+        } else {
+            status = false;
+            boxStatus = "unchecked"
+        };
+
+    const updateTask = {
+        _id: index,
+        completed: status,
+        checkbox: boxStatus
+    };
+    console.log(updateTask);
+    $.ajax({ url: `/api/taskList`, method: "PUT", data: updateTask})
+    .then(function(data) {
+        runTaskQuery();
+    })
 
 });
 
